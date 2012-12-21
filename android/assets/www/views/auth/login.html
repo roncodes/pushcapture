@@ -1,0 +1,14 @@
+<div data-role="page" data-theme="a">
+	<div data-role="header">
+		<h1>Cam Anon</h1>
+	</div>
+	<div data-role="content">
+		<form id="login_form" action="server.php/auth/login" method="post" class="login_form">
+			<div class="alert" style="display:none;"></div>
+			<input type="text" name="email" id="email" value="" placeholder="Email"/>
+			<input type="password" name="password" id="password" value="" placeholder="Password"/>
+			<a href="javascript:CamAnon.controller.auth.login();" data-role="button">Login</a>
+			<a href="javascript:CamAnon.redirect('auth/register');" data-role="button" data-theme="b">Register</a>
+		</form>
+	</div>
+</div>
