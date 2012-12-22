@@ -40,9 +40,9 @@ public class PushCaptureActivity extends Activity implements SurfaceHolder.Callb
 	private boolean inPreview = false;
 	private boolean cameraConfigured = false;
 	
-	public String hostname = "camanon.com";
+	public String hostname = "74.63.224.195";
 	public int tcpPort = 80;
-	public int rtmpPort = 5080;
+	public int rtmpPort = 1935;
 	
 	final String lexicon = "ABCDEFGHIJKLMNOPQRSTUVWXYZ12345674890";
 	final java.util.Random rand = new java.util.Random();
