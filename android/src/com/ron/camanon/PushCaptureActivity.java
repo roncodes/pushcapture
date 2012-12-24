@@ -1,6 +1,5 @@
 package com.ron.camanon;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -15,7 +14,6 @@ import android.content.pm.ActivityInfo;
 import android.hardware.Camera;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.view.Surface;
@@ -29,7 +27,6 @@ import android.widget.ToggleButton;
 @SuppressLint("NewApi")
 public class PushCaptureActivity extends Activity implements SurfaceHolder.Callback {
 	
-	private static final String OUTPUT_FORMAT = ".mp4";
 	private static final String TAG = "PushCapture";
 	
 	private MediaRecorder mMediaRecorder;
@@ -69,7 +66,11 @@ public class PushCaptureActivity extends Activity implements SurfaceHolder.Callb
 				if (((ToggleButton)v).isChecked())
 					mMediaRecorder.start();
 				else {
-					mMediaRecorder.stop();
+					try {
+						mMediaRecorder.stop();
+					} catch(RuntimeException e) {
+						Log.e(TAG, e.getMessage().toString());
+					}
 					mMediaRecorder.reset();
 					try {
 						initRecorder(mHolder.getSurface());
@@ -124,30 +125,6 @@ public class PushCaptureActivity extends Activity implements SurfaceHolder.Callb
 		}
 		
 	}
-	
-	public File createFile(String fName) {
-		File file = new File(Environment.getExternalStorageDirectory(), fName + OUTPUT_FORMAT);
-		if(!file.exists()) {
-			File parent = file.getParentFile();
-			if(parent != null) 
-				if(!parent.exists())
-					if(!parent.mkdirs())
-						try {
-							throw new IOException("Cannot create " +
-									"parent directories for file: " + file);
-						} catch (IOException e) {
-							Log.e(TAG, e.getMessage().toString());
-						}
-
-			try {
-				file.createNewFile();
-			} catch (IOException e) {
-				Log.e(TAG, e.getMessage().toString());
-			}
-		}
-		return file;
-	}
-	
 	
 	/*
 	 * Methods below to handle camera init and preview
