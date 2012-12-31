@@ -1,7 +1,6 @@
 package com.ron.camanon;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,9 +36,8 @@ public class PushCaptureActivity extends Activity implements SurfaceHolder.Callb
 	private boolean inPreview = false;
 	private boolean cameraConfigured = false;
 	
-	public String hostname = "74.63.224.195";
-	public int tcpPort = 80;
-	public int rtmpPort = 1935;
+	public String host = "192.168.1.6";
+	public int port = 9000;
 	
 	final String lexicon = "ABCDEFGHIJKLMNOPQRSTUVWXYZ12345674890";
 	final java.util.Random rand = new java.util.Random();
@@ -108,12 +106,12 @@ public class PushCaptureActivity extends Activity implements SurfaceHolder.Callb
 		mMediaRecorder.setVideoFrameRate(30);
 		
 		/*
-		 * We want to send the recording as a live stream to rtmp server
+		 * We want to send the recording as a live stream to a receiving socket server
 		 */
-		Socket socket = new Socket(InetAddress.getByName(hostname), rtmpPort);
+		Socket socket = new Socket(host, port);
 		ParcelFileDescriptor pfd = ParcelFileDescriptor.fromSocket(socket);
 
-		mMediaRecorder.setOutputFile(pfd.getFileDescriptor());
+        mMediaRecorder.setOutputFile(pfd.getFileDescriptor());
 		mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
 		mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);   
 
