@@ -36,8 +36,8 @@ public class PushCaptureActivity extends Activity implements SurfaceHolder.Callb
 	private boolean inPreview = false;
 	private boolean cameraConfigured = false;
 	
-	public String host = "192.168.1.6";
-	public int port = 9000;
+	public String host = "10.0.2.2";
+	public int port = 9001;
 	
 	final String lexicon = "ABCDEFGHIJKLMNOPQRSTUVWXYZ12345674890";
 	final java.util.Random rand = new java.util.Random();
@@ -88,6 +88,10 @@ public class PushCaptureActivity extends Activity implements SurfaceHolder.Callb
 
 		if(mCamera == null) {
 			Log.e(TAG, "mCamera is null, this shit is going to fail...");
+			mCamera = Camera.open();
+			if(mCamera == null) {
+				Log.e(TAG, "Shit really is going to fail now...");
+			}
 		}
 		
 		mCamera.unlock();
@@ -98,6 +102,7 @@ public class PushCaptureActivity extends Activity implements SurfaceHolder.Callb
 		}
 
 		mMediaRecorder.setCamera(mCamera);
+		mMediaRecorder.setPreviewDisplay(mHolder.getSurface());
 
 		mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
 		mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
